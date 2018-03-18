@@ -1,10 +1,14 @@
 .Game {
-  height: 600px;
-  width: 800px;
-  background-color: #b8e994;
+  height: 400px;
+  width: 600px;
+  background-color: #303952;
   overflow: visible;
 }
 
 .Game__ball {
-  fill: #303952;
+  fill: #b8e994;
+}
+
+.Game__platform{
+  fill: #78e08f;
 }

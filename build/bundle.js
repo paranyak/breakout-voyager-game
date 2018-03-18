@@ -1564,37 +1564,55 @@ new __WEBPACK_IMPORTED_MODULE_0__component_Game__["a" /* default */]();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_most__ = __webpack_require__(24);
 
 
-const height = 600;
-const width = 800;
-const animation = __WEBPACK_IMPORTED_MODULE_0_most__["a" /* periodic */](1000 / 60);
+const height = 400;
+const width = 600;
+const animation = __WEBPACK_IMPORTED_MODULE_0_most__["b" /* periodic */](1000 / 60);
 
-const Ball = (ball, x, y = 5) => {
+const Ball = (ball, platform, x, y = 5) => {
+    console.log(platform, ball);
     ball.setAttribute("cx", x);
     ball.setAttribute("cy", y);
     let vy = 3;
     let vx = 3;
+
     const Xcoordinate = animation.scan(nextX => {
-        if (nextX >= width || nextX < 0) {
-            vx = -vx;
-        }
+        vx = nextX >= width || nextX < 0 ? -vx : vx;
         return nextX + vx;
     }, 0).observe(a => {
         x = a;
         ball.setAttribute("cx", a);
     });
     const Ycoordinate = animation.scan(nextY => {
-        if (nextY >= height || nextY < 0) {
-            vy = -vy;
+        if (nextY >= height && (platform.x.animVal.value > ball.cx.animVal.value || ball.cx.animVal.value > platform.x.animVal.value + platform.width.animVal.value)) {
+            vx = 0;vy = 0;
+            return nextY + vy;
         }
+        vy = nextY >= height || nextY < 0 ? -vy : vy;
         return nextY + vy;
     }, 0).observe(a => {
         ball.setAttribute("cy", a);
     });
 };
 
+const Platform = (platform, x = 0) => {
+    platform.setAttribute("x", x);
+    __WEBPACK_IMPORTED_MODULE_0_most__["a" /* fromEvent */]('keydown', document).observe(k => {
+        if (k.key == "ArrowRight") {
+            x = x + 10 + platform.width.animVal.value >= width ? width - platform.width.animVal.value : x + 10;
+        }
+        if (k.key == "ArrowLeft") {
+            x = x - 10 < 0 ? 0 : x - 10;
+        }
+        platform.setAttribute("x", x);
+    });
+    return platform;
+};
+
 class Game {
     constructor() {
-        Ball(document.querySelector('.Game__ball'), 2 * width / 3 - 100);
+        console.log("here");
+        let platform = Platform(document.querySelector('.Game__platform'), 5);
+        Ball(document.querySelector('.Game__ball'), platform, 0);
     }
 }
 
@@ -1617,11 +1635,11 @@ class Game {
 /* unused harmony reexport empty */
 /* unused harmony reexport never */
 /* unused harmony reexport from */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_4__source_periodic__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_4__source_periodic__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__observable_subscribe__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__combinator_thru__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__source_fromEvent__ = __webpack_require__(43);
-/* unused harmony reexport fromEvent */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_8__source_fromEvent__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__combinator_observe__ = __webpack_require__(47);
 /* unused harmony reexport observe */
 /* unused harmony reexport forEach */
@@ -3274,7 +3292,7 @@ function thru (f, stream) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export fromEvent */
+/* harmony export (immutable) */ __webpack_exports__["a"] = fromEvent;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Stream__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EventTargetSource__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__EventEmitterSource__ = __webpack_require__(45);
