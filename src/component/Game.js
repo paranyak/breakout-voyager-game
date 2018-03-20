@@ -18,7 +18,7 @@ const Ball = (ball, platform,block, x, y = 400) => {
 
     const Xcoordinate = animation
         .scan((nextX) => {
-                vx = (nextX >= width || nextX < 0) ? -vx : vx;
+                vx = (nextX >= width-4 || nextX < 0) ? -vx : vx;
                 block.map((coordinates, ind) => {
                     if((coordinates[0]-2 <nextX && nextX <coordinates[0]+2 )&& (coordinates[1] < ball.cy.animVal.value && ball.cy.animVal.value < coordinates[1] +10)){
                         console.log("left");
